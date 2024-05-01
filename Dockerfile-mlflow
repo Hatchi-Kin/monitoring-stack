@@ -1,0 +1,9 @@
+FROM python:3.10-slim-buster
+
+WORKDIR /mlflow/
+
+RUN apt-get update && apt-get install -y \
+    gcc \
+    default-libmysqlclient-dev \
+    pkg-config \
+ && pip install mlflow pymysql boto3 mysqlclient
