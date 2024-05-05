@@ -8,7 +8,7 @@ from dotenv import load_dotenv
 load_dotenv() 
 
 LOGIN_ENDPOINT = os.getenv("LOGIN_ENDPOINT")
-ERROR_CODES = {400, 401, 403, 404, 500}  # replace with your set of error codes
+ERROR_CODES = {400, 401, 403, 404, 500} 
 
 def get_tokens(login_endpoint, accounts):
     """Fetch tokens for each account."""
