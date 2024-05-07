@@ -594,7 +594,7 @@
           "useBackend": false
         }
       ],
-      "title": "Total response in Go",
+      "title": "Total response in gigabytes",
       "type": "stat"
     },
     {
@@ -1057,6 +1057,6 @@
   "timezone": "",
   "title": "FastAPI Dashboard",
   "uid": "_eX4mpl3",
-  "version": 77,
+  "version": 78,
   "weekStart": ""
 }
