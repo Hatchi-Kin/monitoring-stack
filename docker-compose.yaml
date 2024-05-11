@@ -1,6 +1,6 @@
 services:
   mlflowdb:
-    image: arm64v8/mysql
+    image: arm64v8/mariadb
     environment:
       MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
       MYSQL_USER: ${MYSQL_USER}
