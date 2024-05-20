@@ -4,7 +4,7 @@
 
 ## Architecture
 
-![Architecture Diagram](architecture_diagram-20-05-2024_small.png)
+![Architecture Diagram](README_architecture_diagram-20-05-2024_small.png)
 
 
 ## **Web App:**
