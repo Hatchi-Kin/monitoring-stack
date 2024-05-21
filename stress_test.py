@@ -9,8 +9,8 @@ from tqdm.contrib.concurrent import thread_map
 load_dotenv() 
 
 LOGIN_ENDPOINT = os.getenv("LOGIN_ENDPOINT")
+BASE_URL = os.getenv("BASE_URL")
 ERROR_CODES = {400, 401, 403, 404, 500} 
-
 
 def get_tokens(login_endpoint, accounts):
     """Fetch tokens for each account."""
@@ -64,27 +64,27 @@ accounts = [
 ]
 
 get_endpoints = [
-    "https://api.music-sim.fr/auth/users",
-    "https://api.music-sim.fr/music_library/count",
-    "https://api.music-sim.fr/music_library/random",
-    f"https://api.music-sim.fr/music_library/song/{random.randint(1, 16200)}",
-    "https://api.music-sim.fr/music_library/artist",
-    "https://api.music-sim.fr/music_library/artists",
-    "https://api.music-sim.fr/music_library/albums",
-    "https://api.music-sim.fr/lyrics/random-lyrics",
-    "https://api.music-sim.fr/lyrics/random-lyrics-metadata",
-    "https://api.music-sim.fr/auth/gui",
-    "https://api.music-sim.fr/minio/random-metadata",
-    "https://api.music-sim.fr/monitoring/pi"
+    f"{BASE_URL}/auth/users",
+    f"{BASE_URL}/music_library/count",
+    f"{BASE_URL}/music_library/random",
+    f"{BASE_URL}/music_library/song/{random.randint(1, 16200)}",
+    f"{BASE_URL}/music_library/artist",
+    f"{BASE_URL}/music_library/artists",
+    f"{BASE_URL}/music_library/albums",
+    f"{BASE_URL}/lyrics/random-lyrics",
+    f"{BASE_URL}/lyrics/random-lyrics-metadata",
+    f"{BASE_URL}/auth/gui",
+    f"{BASE_URL}/minio/random-metadata",
+    f"{BASE_URL}/monitoring/pi"
 ]
 
 post_endpoints = {
-    "https://api.music-sim.fr/music_library/albums": {"artist_folder": "MegaSet/Katie Melua"},
-    "https://api.music-sim.fr/music_library/songs": {"album_folder": "MegaSet/Daft Punk/2013 - Random Access Memories"},
-    "https://api.music-sim.fr/music_library/songs/by_artist_and_album": {"artist": "Katie Melua","album": "Pictures"},
-    "https://api.music-sim.fr/milvus/similar_short_entity": {"path": ["MegaSet/Yann Tiersen/2001 - Le Fabuleux Destin D'Amelie Poulain/03 - La Valse D'Amelie.mp3"]},
-    "https://api.music-sim.fr/minio/list-objects/":{"album_folder": "MegaSet/Daft Punk/2013 - Random Access Memories"},
-    "https://api.music-sim.fr/minio/metadata": {"file_path": "MegaSet/No Place For Soul/2002 - Full Global Racket/04 A.I.M.mp3"}
+    f"{BASE_URL}/music_library/albums": {"artist_folder": "MegaSet/Katie Melua"},
+    f"{BASE_URL}/music_library/songs": {"album_folder": "MegaSet/Daft Punk/2013 - Random Access Memories"},
+    f"{BASE_URL}/music_library/songs/by_artist_and_album": {"artist": "Katie Melua","album": "Pictures"},
+    f"{BASE_URL}/milvus/similar_short_entity": {"path": ["MegaSet/Yann Tiersen/2001 - Le Fabuleux Destin D'Amelie Poulain/03 - La Valse D'Amelie.mp3"]},
+    f"{BASE_URL}/minio/list-objects/":{"album_folder": "MegaSet/Daft Punk/2013 - Random Access Memories"},
+    f"{BASE_URL}/minio/metadata": {"file_path": "MegaSet/No Place For Soul/2002 - Full Global Racket/04 A.I.M.mp3"}
 }
 
 
