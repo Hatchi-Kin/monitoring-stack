@@ -66,21 +66,21 @@ Toutes les briques du projet tournent dans des Docker containers sur un raspberr
 
 ## 
 ```bash
-CONTAINER ID   IMAGE                             COMMAND                  STATUS                NAMES
+CONTAINER ID   IMAGE                      COMMAND                   STATUS       NAMES                            PORTS
 
-85853921954e   react-music-sim-web               "docker-entrypoint.s…"   Up 2 days             react-music-sim-web-1
+85853921954e   react-music-sim-web        "docker-entrypoint.s…"    Up 6 days    react-music-sim-web-1            3000:3000  
 
-35bcb145afd2   megapi-megapi                     "python app.py --hos…"   Up 2 days             megapi-megapi-1
-1b900386d982   postgres:16-alpine                "docker-entrypoint.s…"   Up 2 days (healthy)   megapi-postgre-1
-a20865df2c29   minio/minio:latest                "/usr/bin/docker-ent…"   Up 2 days             megapi-minio-1
+35bcb145afd2   megapi-megapi              "python app.py --hos…"    Up 6 days    megapi-megapi-1                  8000:8000
+1b900386d982   postgres:16-alpine         "docker-entrypoint.s…"    Up 6 days    megapi-postgre-1                 5432:5432
+a20865df2c29   minio/minio:latest         "/usr/bin/docker-ent…"    Up 6 days    megapi-minio-1                   9000:9001
 
-ef153803e693   monitoring-stack-mlflow           "mlflow server --hos…"   Up 2 days             monitoring-stack-mlflow-1
-96dcf5a7bd35   arm64v8/mariadb                   "docker-entrypoint.s…"   Up 2 days             monitoring-stack-mlflowdb-1
-b1987bfd06c5   prom/prometheus                   "/bin/prometheus --c…"   Up 2 days             monitoring-stack-prometheus-1
-cee7fd55ee30   grafana/grafana                   "/run.sh"                Up 2 days             grafana
+ef153803e693   monitoring-stack-mlflow    "mlflow server --hos…"    Up 6 days    monitoring-stack-mlflow-1        5000:5000
+96dcf5a7bd35   arm64v8/mariadb            "docker-entrypoint.s…"    Up 6 days    monitoring-stack-mlflowdb-1      3306:3306
+b1987bfd06c5   prom/prometheus            "/bin/prometheus --c…"    Up 6 days    monitoring-stack-prometheus-1    9090:9090
+cee7fd55ee30   grafana/grafana            "/run.sh"                 Up 6 days    grafana
 
-28c6fb378950   jc21/nginx-proxy-manager:latest   "/init"                  Up 2 days             nginx-proxy-app-1
-2a0f9113932f   portainer/portainer-ce:latest     "/portainer"             Up 2 days             portainer-portainer-1
+28c6fb378950   jc21/nginx-proxy-manager   "/init"                   Up 6 days    nginx-proxy-app-1                80-81:80-81
+2a0f9113932f   portainer/portainer-ce     "/portainer"              Up 6 days    portainer-portainer-1            9443:9443           
 ```
 
 
