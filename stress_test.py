@@ -58,7 +58,6 @@ def call_api(get_endpoints, post_endpoints, tokens, num_requests):
 
 
 accounts = [
-    {"username": os.getenv("USERNAME_PROMETHEUS"), "password": os.getenv("PASSWORD_PROMETHEUS")},
     {"username": os.getenv("USERNAME_BENDER"), "password": os.getenv("PASSWORD_BENDER")},
     {"username": os.getenv("USERNAME_BENDER2"), "password": os.getenv("PASSWORD_BENDER2")}
 ]
@@ -75,7 +74,8 @@ get_endpoints = [
     f"{BASE_URL}/lyrics/random-lyrics-metadata",
     f"{BASE_URL}/auth/gui",
     f"{BASE_URL}/minio/random-metadata",
-    f"{BASE_URL}/monitoring/pi"
+    f"{BASE_URL}/monitoring/pi",
+    f"{BASE_URL}/favorites/"
 ]
 
 post_endpoints = {
