@@ -28,3 +28,11 @@ scrape_configs:
   metrics_path: /metrics
   static_configs:
     - targets: ['megapi:8000']
+- job_name: 'daily-milvus-ping'
+  scrape_interval: 6h
+  metrics_path: /milvus/ping
+  scheme: http
+  follow_redirects: true
+  enable_http2: true
+  static_configs:
+  - targets: ['megapi:8000']
