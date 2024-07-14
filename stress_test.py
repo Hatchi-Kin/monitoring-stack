@@ -76,6 +76,7 @@ get_endpoints = [
     f"{BASE_URL}/minio/random-metadata",
     f"{BASE_URL}/monitoring/pi",
     f"{BASE_URL}/favorites/"
+    f"{BASE_URL}/milvus/ping",
 ]
 
 post_endpoints = {
