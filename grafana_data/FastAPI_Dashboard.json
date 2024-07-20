@@ -1659,6 +1659,7 @@
             "inspect": false
           },
           "mappings": [],
+          "noValue": "No error to display !",
           "thresholds": {
             "mode": "absolute",
             "steps": [
@@ -1726,7 +1727,7 @@
           "editorMode": "code",
           "format": "table",
           "rawQuery": true,
-          "rawSql": "SELECT datetime, error_message FROM openl3_computation_log LIMIT 3",
+          "rawSql": "SELECT datetime, error_message\nFROM openl3_computation_log\nWHERE error_message IS NOT NULL\nLIMIT 3;\n",
           "refId": "A",
           "sql": {
             "columns": [
@@ -1907,6 +1908,6 @@
   "timezone": "",
   "title": "FastAPI Dashboard",
   "uid": "_eX4mpl3",
-  "version": 13,
+  "version": 14,
   "weekStart": ""
 }
