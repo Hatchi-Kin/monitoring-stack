@@ -1788,7 +1788,41 @@
               "mode": "off"
             }
           },
-          "mappings": [],
+          "mappings": [
+            {
+              "options": {
+                "0": {
+                  "index": 6,
+                  "text": "Sunday"
+                },
+                "1": {
+                  "index": 0,
+                  "text": "Monday"
+                },
+                "2": {
+                  "index": 1,
+                  "text": "Tuesday"
+                },
+                "3": {
+                  "index": 2,
+                  "text": "Wednesday"
+                },
+                "4": {
+                  "index": 3,
+                  "text": "Thursday"
+                },
+                "5": {
+                  "index": 4,
+                  "text": "Friday"
+                },
+                "6": {
+                  "index": 5,
+                  "text": "Saturday"
+                }
+              },
+              "type": "value"
+            }
+          ],
           "thresholds": {
             "mode": "absolute",
             "steps": [
@@ -1848,7 +1882,7 @@
           "editorMode": "code",
           "format": "table",
           "rawQuery": true,
-          "rawSql": "SELECT DATE_PART('dow', datetime) AS day_of_week, response_time_ms\nFROM openl3_computation_log\nORDER BY datetime DESC\nLIMIT 10;\n",
+          "rawSql": "SELECT \n    DATE_PART('dow', datetime) AS day_of_week,\n    AVG(response_time_ms) AS avg_response_time_ms \nFROM \n    openl3_computation_log\nWHERE \n    datetime >= CURRENT_DATE - INTERVAL '7 days'\nGROUP BY \n    day_of_week\nORDER BY \n    day_of_week DESC;\n",
           "refId": "A",
           "sql": {
             "columns": [
@@ -1876,7 +1910,7 @@
           "table": "openl3_computation_log"
         }
       ],
-      "title": "Model's last 10 response_time in ms",
+      "title": "Model's last 7days response_time in ms",
       "type": "barchart"
     }
   ],
@@ -1887,7 +1921,7 @@
     "list": []
   },
   "time": {
-    "from": "now-6h",
+    "from": "now-7d",
     "to": "now"
   },
   "timepicker": {
@@ -1908,6 +1942,6 @@
   "timezone": "",
   "title": "FastAPI Dashboard",
   "uid": "_eX4mpl3",
-  "version": 14,
+  "version": 17,
   "weekStart": ""
 }

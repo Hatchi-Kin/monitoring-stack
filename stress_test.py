@@ -48,9 +48,9 @@ def call_api(get_endpoints, post_endpoints, tokens, num_requests):
         time_per_endpoint[current_endpoint].append(end_time - start_time)
         if response.status_code in ERROR_CODES:
             error_count += 1
-        time.sleep(0.25)
+        time.sleep(0.75)
 
-    thread_map(make_request, range(num_requests), max_workers=5)
+    thread_map(make_request, range(num_requests), max_workers=3)
 
     avg_time_per_endpoint = {url: sum(times)/len(times) for url, times in time_per_endpoint.items()}
 
@@ -64,16 +64,22 @@ accounts = [
 
 get_endpoints = [
     f"{BASE_URL}/auth/users",
+    f"{BASE_URL}/auth/users/me",
+    f"{BASE_URL}/auth/private",
     f"{BASE_URL}/music_library/count",
     f"{BASE_URL}/music_library/random",
     f"{BASE_URL}/music_library/song/{random.randint(1, 16200)}",
-    f"{BASE_URL}/music_library/artist",
     f"{BASE_URL}/music_library/artists",
     f"{BASE_URL}/music_library/albums",
+    f"{BASE_URL}/favorites/",
+    f"{BASE_URL}/uploaded/",
     f"{BASE_URL}/lyrics/random-lyrics",
     f"{BASE_URL}/lyrics/random-lyrics-metadata",
     f"{BASE_URL}/auth/gui",
+    f"{BASE_URL}/milvus/ping",
+    f"{BASE_URL}/minio/milvus/entity/666",
     f"{BASE_URL}/minio/random-metadata",
+    f"{BASE_URL}/minio/emb_extracted/ApasheUebokVIP.mp3",
     f"{BASE_URL}/monitoring/pi",
     f"{BASE_URL}/favorites/"
     f"{BASE_URL}/milvus/ping",
@@ -83,6 +89,9 @@ post_endpoints = {
     f"{BASE_URL}/music_library/albums": {"artist_folder": "MegaSet/Katie Melua"},
     f"{BASE_URL}/music_library/songs": {"album_folder": "MegaSet/Daft Punk/2013 - Random Access Memories"},
     f"{BASE_URL}/music_library/songs/by_artist_and_album": {"artist": "Katie Melua","album": "Pictures"},
+    f"{BASE_URL}/music_library/album_folder_by_artist_and_album": {"artist": "Queen","album": "Innuendo"},
+    # f"{BASE_URL}/openl3/embeddings": {"file_path": "ApasheUebokVIP.mp3"},
+    f"{BASE_URL}/milvus/plot_genres": {"file_path": "MegaSet/No Place For Soul/2002 - Full Global Racket/04 A.I.M.mp3"},
     f"{BASE_URL}/milvus/similar_short_entity": {"path": ["MegaSet/Yann Tiersen/2001 - Le Fabuleux Destin D'Amelie Poulain/03 - La Valse D'Amelie.mp3"]},
     f"{BASE_URL}/minio/list-objects/":{"album_folder": "MegaSet/Daft Punk/2013 - Random Access Memories"},
     f"{BASE_URL}/minio/metadata": {"file_path": "MegaSet/No Place For Soul/2002 - Full Global Racket/04 A.I.M.mp3"}
@@ -93,7 +102,7 @@ if __name__ == "__main__":
     try:
         tokens = get_tokens(LOGIN_ENDPOINT, accounts)
         if tokens:
-            error_count, avg_time_per_endpoint = call_api(get_endpoints, post_endpoints, tokens, 750)
+            error_count, avg_time_per_endpoint = call_api(get_endpoints, post_endpoints, tokens, 200)
             print(f"Number of errors: {error_count}")
             print("Average time per endpoint:")
             for url, avg_time in avg_time_per_endpoint.items():
