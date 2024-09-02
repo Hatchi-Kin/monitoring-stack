@@ -1,5 +1,16 @@
-# Overview
+# Monitoring Stack
+
+## Overview
 `https://music-sim.fr` est une application full-stack qui permet à ses utilisateurs d'interagir avec une bibliothèque des morceaux de musique d'une toute nouvelle manière; la recherche par similarité !
+
+The Monitoring stack is a repo containing all the monitoring tolls for the megapi and music-sim projects. It includes:
+- Prometheus
+- Grafana
+- MLFlow with a MariaDB backend
+- FastAPI-instrumentator
+- in the future, it will also use Locust for load testing
+
+**Note:** This project relies on a backend server, which can be found here: [megapi](https://github.com/Hatchi-Kin/megapi).
 
 
 ## Architecture
