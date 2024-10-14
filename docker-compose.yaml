@@ -46,6 +46,17 @@ services:
       - GF_SECURITY_ADMIN_PASSWORD=${GF_SECURITY_ADMIN_PASSWORD}
       - GF_USERS_ALLOW_SIGN_UP=false
 
+  locust:
+    build:
+      context: ./locust
+      dockerfile: Dockerfile
+    ports:
+      - "8089:8089"
+    environment:
+      - LOCUST_FILE=locust_file.py
+    volumes:
+      - ./:/app
+
 volumes:
   mlflowdb_data:
   prometheus_data:
