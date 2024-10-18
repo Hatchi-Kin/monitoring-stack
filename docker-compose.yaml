@@ -24,7 +24,7 @@ services:
       - MLFLOW_S3_ENDPOINT_URL=${MLFLOW_S3_ENDPOINT_URL}
     depends_on:
       - mlflowdb
-    command: mlflow server --host 0.0.0.0 --port 5000 --backend-store-uri mysql://${MYSQL_USER}:${MYSQL_PASSWORD}@mlflowdb/${MYSQL_DATABASE} --default-artifact-root s3://${AWS_S3_BUCKET}
+    command: mlflow server --app-name basic-auth --host 0.0.0.0 --port 5000 --backend-store-uri mysql://${MYSQL_USER}:${MYSQL_PASSWORD}@mlflowdb/${MYSQL_DATABASE} --default-artifact-root s3://${AWS_S3_BUCKET}/mlflow
 
   prometheus:
     image: prom/prometheus
