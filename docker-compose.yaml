@@ -1,4 +1,5 @@
 services:
+
   mlflowdb:
     image: mariadb:latest
     environment:
@@ -11,7 +12,7 @@ services:
 
   mlflow:
     build:
-      context: .
+      context: ./mlflow
       dockerfile: Dockerfile-mlflow
     ports:
       - "5000:5000"
@@ -23,9 +24,26 @@ services:
       - AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY}
       - MLFLOW_S3_ENDPOINT_URL=${MLFLOW_S3_ENDPOINT_URL}
       - AWS_S3_BUCKET=${AWS_S3_BUCKET}
+      - MLFLOW_TRACKING_URI=${MLFLOW_TRACKING_URI}
+      - MLFLOW_TRACKING_USERNAME=${MLFLOW_TRACKING_USERNAME}
+      - MLFLOW_TRACKING_PASSWORD=${MLFLOW_TRACKING_PASSWORD}
+      - NEW_USER_USERNAME=${NEW_USER_USERNAME}
+      - NEW_USER_PASSWORD=${NEW_USER_PASSWORD}
     depends_on:
       - mlflowdb
-    command: mlflow server --app-name basic-auth --host 0.0.0.0 --port 5000 --backend-store-uri mysql://${MYSQL_USER}:${MYSQL_PASSWORD}@mlflowdb/${MYSQL_DATABASE} --default-artifact-root s3://${AWS_S3_BUCKET}/mlflow
+
+  mlflow-setup:
+    build:
+      context: ./mlflow
+      dockerfile: Dockerfile-setup-mlflow
+    environment:
+      - MLFLOW_TRACKIN_FULL_URL=${MLFLOW_TRACKIN_FULL_URL}
+      - MLFLOW_TRACKING_USERNAME=${MLFLOW_TRACKING_USERNAME}
+      - MLFLOW_TRACKING_PASSWORD=${MLFLOW_TRACKING_PASSWORD}
+      - NEW_USER_USERNAME=${NEW_USER_USERNAME}
+      - NEW_USER_PASSWORD=${NEW_USER_PASSWORD}
+    depends_on:
+      - mlflow
 
   prometheus:
     image: prom/prometheus

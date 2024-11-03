@@ -1,0 +1,17 @@
+FROM python:3.10-slim-buster
+
+WORKDIR /mlflow/
+
+RUN apt-get update && apt-get install -y \
+    gcc \
+    default-libmysqlclient-dev \
+    pkg-config \
+ && pip install mlflow pymysql boto3 mysqlclient
+
+# Copy the Python script into the container
+COPY setup_mlflow.py /mlflow/setup_mlflow.py
+
+EXPOSE 5000
+
+# Start the MLflow server and run the setup script
+CMD ["sh", "-c", "mlflow server --app-name basic-auth --host 0.0.0.0 --port 5000 --backend-store-uri mysql://${MYSQL_USER}:${MYSQL_PASSWORD}@mlflowdb/${MYSQL_DATABASE} --default-artifact-root s3://${AWS_S3_BUCKET}/mlflow & sleep 10 && python /mlflow/setup_mlflow.py && tail -f /dev/null"]
