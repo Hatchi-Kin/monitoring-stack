@@ -15,7 +15,7 @@ The Monitoring stack is a repo containing all the monitoring tolls for the megap
 
 ## Architecture
 
-![Architecture Diagram](README_architecture_diagram-20-05-2024_small.png)
+![Architecture Diagram](README_architecture_diagram-20-05-2024_BIG.png)
 
 
 ## **Web App:**
@@ -62,36 +62,34 @@ Plusieurs aspects MLOPS:
 
  - Github Actions pour le CI/CD d'applications avec tests et deploiment automatisé
  - serveur MLFlow et bucket MiniO pour les experimentations / versionning de models ( UI uniquement accessible sur même réseau que le rpi. Servers uniquement accessible via le client avec les bons credentials).
- - Evidently AI, Prometheus / Grafana pour le monitoring du model
- - pourquoi pas ajouter DVC pour le pipeline d'entrainement / versioning de dataset
+ - Prometheus / Grafana pour le monitoring du model
+ - pourquoi pas ajouter plus tard DVC pour le pipeline d'entrainement / versioning de dataset
 
 
-## **Raspberry Pi server:** 
+## **Self hosted Aspire server:** 
 
-Toutes les briques du projet tournent dans des Docker containers sur un raspberry pi 4 et sont accessible depuis internet.
+Toutes les briques du projet tournent dans des Docker containers sur un laptop (ubuntu server) et sont accessible depuis internet.
 
 - achat d'un nom de domaine (music-sim.fr) à OVH et création de sous domaines qui redirigent vers ma ISP BOX
-- container nginx-proxy-manager pour rediriger le trafic vers les bons ports du raspberry pi en fonction du sous domaine
-- portainer pour l'ui mais franchement pas particulièrement utile.
+- container nginx-proxy-manager pour rediriger le trafic vers les bons ports du serveur en fonction du sous domaine
 
 
 ## 
 ```bash
-CONTAINER ID   IMAGE                      COMMAND                   STATUS       NAMES                            PORTS
+CONTAINER ID   IMAGE                             COMMAND                  STATUS                NAMES
 
-85853921954e   react-music-sim-web        "docker-entrypoint.s…"    Up 6 days    react-music-sim-web-1            3000:3000  
+5421dc07cac7   monitoring-stack-mlflow           "sh -c 'mlflow serve…"   Up 2 days             monitoring-stack-mlflow-1
+ebbc8e0cd1ec   monitoring-stack-locust           "locust -f locust_fi…"   Up 2 days             monitoring-stack-locust-1
+c44abfa69ce0   mariadb:latest                    "docker-entrypoint.s…"   Up 2 days             monitoring-stack-mlflowdb-1
 
-35bcb145afd2   megapi-megapi              "python app.py --hos…"    Up 6 days    megapi-megapi-1                  8000:8000
-1b900386d982   postgres:16-alpine         "docker-entrypoint.s…"    Up 6 days    megapi-postgre-1                 5432:5432
-a20865df2c29   minio/minio:latest         "/usr/bin/docker-ent…"    Up 6 days    megapi-minio-1                   9000:9001
+67dc21958cca   grafana/grafana                   "/run.sh"                Up 2 days             grafana
+ce11b64b9bd0   prom/prometheus                   "/bin/prometheus --c…"   Up 2 days             monitoring-stack-prometheus-1
 
-ef153803e693   monitoring-stack-mlflow    "mlflow server --hos…"    Up 6 days    monitoring-stack-mlflow-1        5000:5000
-96dcf5a7bd35   arm64v8/mariadb            "docker-entrypoint.s…"    Up 6 days    monitoring-stack-mlflowdb-1      3306:3306
-b1987bfd06c5   prom/prometheus            "/bin/prometheus --c…"    Up 6 days    monitoring-stack-prometheus-1    9090:9090
-cee7fd55ee30   grafana/grafana            "/run.sh"                 Up 6 days    grafana
+112d1905a84c   megapi-megapi                     "python app.py --hos…"   Up 3 days             megapi-megapi-1
+819e36719363   minio/minio:latest                "/usr/bin/docker-ent…"   Up 5 days             megapi-minio-1
+bf63a8778912   postgres:16-alpine                "docker-entrypoint.s…"   Up 5 days             megapi-postgre-1
 
-28c6fb378950   jc21/nginx-proxy-manager   "/init"                   Up 6 days    nginx-proxy-app-1                80-81:80-81
-2a0f9113932f   portainer/portainer-ce     "/portainer"              Up 6 days    portainer-portainer-1            9443:9443           
+5f21738fd97b   react-music-sim-web               "docker-entrypoint.s…"   Up 5 days             react-music-sim-web-1
 ```
 
 
