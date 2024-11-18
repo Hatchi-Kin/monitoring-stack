@@ -36,7 +36,6 @@
     },
     {
       "datasource": {
-        "type": "prometheus",
         "uid": "cdxhxlqw0htkwc"
       },
       "fieldConfig": {
@@ -49,12 +48,8 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
+                "color": "blue",
                 "value": null
-              },
-              {
-                "color": "red",
-                "value": 80
               }
             ]
           }
@@ -63,7 +58,7 @@
       },
       "gridPos": {
         "h": 8,
-        "w": 12,
+        "w": 14,
         "x": 0,
         "y": 1
       },
@@ -86,19 +81,11 @@
       "pluginVersion": "11.3.0",
       "targets": [
         {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "cdxhxlqw0htkwc"
-          },
-          "disableTextWrap": false,
           "editorMode": "code",
-          "expr": "sum by (handler) (http_requests_total{handler!=\"/metrics\", status=~\"2.*\"}) / sum by(handler) (http_requests_total{handler!=\"/metrics\"})",
-          "fullMetaSearch": false,
-          "includeNullMetadata": true,
+          "expr": "(sum by (handler) (http_requests_total{handler!=\"/metrics\", handler!=\"none\", status=~\"2.*\"}) * 100) /\nsum by (handler) (http_requests_total{handler!=\"/metrics\", handler!=\"none\"})\n",
           "legendFormat": "__auto",
           "range": true,
-          "refId": "A",
-          "useBackend": false
+          "refId": "A"
         }
       ],
       "title": "Percent of 200 per endpoint",
@@ -115,16 +102,13 @@
             "mode": "thresholds"
           },
           "mappings": [],
+          "noValue": "0% status 400 !",
           "thresholds": {
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
+                "color": "semi-dark-orange",
                 "value": null
-              },
-              {
-                "color": "red",
-                "value": 80
               }
             ]
           }
@@ -133,8 +117,8 @@
       },
       "gridPos": {
         "h": 8,
-        "w": 12,
-        "x": 12,
+        "w": 10,
+        "x": 14,
         "y": 1
       },
       "id": 40,
@@ -158,7 +142,7 @@
         {
           "disableTextWrap": false,
           "editorMode": "builder",
-          "expr": "sum by(handler) (http_requests_total{handler!~\"/metrics|none\", status=~\"4.*\"}) / sum by(handler) (requests_total{handler!=\"/metrics\"})",
+          "expr": "sum by(handler) (http_requests_total{handler!~\"/metrics|none\", status=~\"4.*\", job=\"megapi-log\"}) / sum by(handler) (requests_total{handler!~\"/metrics|none\"})",
           "fullMetaSearch": false,
           "includeNullMetadata": true,
           "legendFormat": "__auto",
@@ -279,7 +263,7 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
+                "color": "blue",
                 "value": null
               },
               {
@@ -350,7 +334,7 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
+                "color": "semi-dark-orange",
                 "value": null
               },
               {
@@ -421,11 +405,11 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
+                "color": "light-red",
                 "value": null
               },
               {
-                "color": "red",
+                "color": "semi-dark-red",
                 "value": 5
               }
             ]
@@ -567,6 +551,30 @@
                 }
               }
             ]
+          },
+          {
+            "__systemRef": "hideSeriesFrom",
+            "matcher": {
+              "id": "byNames",
+              "options": {
+                "mode": "exclude",
+                "names": [
+                  "2xx"
+                ],
+                "prefix": "All except:",
+                "readOnly": true
+              }
+            },
+            "properties": [
+              {
+                "id": "custom.hideFrom",
+                "value": {
+                  "legend": false,
+                  "tooltip": false,
+                  "viz": true
+                }
+              }
+            ]
           }
         ]
       },
@@ -677,7 +685,7 @@
       },
       "gridPos": {
         "h": 10,
-        "w": 16,
+        "w": 8,
         "x": 0,
         "y": 24
       },
@@ -710,7 +718,7 @@
           },
           "disableTextWrap": false,
           "editorMode": "builder",
-          "expr": "increase(http_requests_total{job=\"megapi-log\"}[5m])",
+          "expr": "increase(http_requests_total{job=\"megapi-log\", handler!=\"none\"}[5m])",
           "format": "time_series",
           "fullMetaSearch": false,
           "includeNullMetadata": true,
@@ -724,6 +732,81 @@
       ],
       "title": "Total requests per 5m",
       "type": "timeseries"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "cdpnat2ztxhj4a"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 8000
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 10,
+        "w": 10,
+        "x": 8,
+        "y": 24
+      },
+      "id": 42,
+      "options": {
+        "displayMode": "lcd",
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": false
+        },
+        "maxVizHeight": 300,
+        "minVizHeight": 16,
+        "minVizWidth": 8,
+        "namePlacement": "auto",
+        "orientation": "horizontal",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "showUnfilled": true,
+        "sizing": "manual",
+        "valueMode": "color"
+      },
+      "pluginVersion": "11.3.0",
+      "targets": [
+        {
+          "disableTextWrap": false,
+          "editorMode": "builder",
+          "expr": "sum_over_time(http_requests_total{handler!~\"none|/metrics\", instance=\"megapi:8000\"}[$__interval])",
+          "fullMetaSearch": false,
+          "includeNullMetadata": true,
+          "legendFormat": "__auto",
+          "range": true,
+          "refId": "A",
+          "useBackend": false
+        }
+      ],
+      "title": "Endpoints",
+      "type": "bargauge"
     },
     {
       "datasource": {
@@ -788,8 +871,8 @@
       },
       "gridPos": {
         "h": 10,
-        "w": 8,
-        "x": 16,
+        "w": 6,
+        "x": 18,
         "y": 24
       },
       "id": 23,
@@ -2181,7 +2264,32 @@
             ]
           }
         },
-        "overrides": []
+        "overrides": [
+          {
+            "__systemRef": "hideSeriesFrom",
+            "matcher": {
+              "id": "byNames",
+              "options": {
+                "mode": "exclude",
+                "names": [
+                  "< 40000"
+                ],
+                "prefix": "All except:",
+                "readOnly": true
+              }
+            },
+            "properties": [
+              {
+                "id": "custom.hideFrom",
+                "value": {
+                  "legend": false,
+                  "tooltip": false,
+                  "viz": true
+                }
+              }
+            ]
+          }
+        ]
       },
       "gridPos": {
         "h": 7,
@@ -2270,7 +2378,7 @@
     "list": []
   },
   "time": {
-    "from": "now-6h",
+    "from": "now-12h",
     "to": "now"
   },
   "timepicker": {
@@ -2279,6 +2387,6 @@
   "timezone": "",
   "title": "FastAPI Dashboard",
   "uid": "_eX4mpl3",
-  "version": 31,
+  "version": 43,
   "weekStart": ""
 }
