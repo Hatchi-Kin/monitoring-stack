@@ -3,16 +3,48 @@
 ## Overview
 `https://music-sim.fr` est une application full-stack qui permet à ses utilisateurs d'interagir avec une bibliothèque des morceaux de musique d'une toute nouvelle manière; la recherche par similarité !
 
-The Monitoring stack is a repo containing all the monitoring tolls for the megapi and music-sim projects. It includes:
+Ce repo `monitoring-stack` contient tous les outils de monitoring pour le projet music-sim, en particulier l'api megapi
 - Prometheus
 - Grafana
 - MLFlow with a MariaDB backend
 - FastAPI-instrumentator
 - in the future, it will also use Locust for load testing
 
-**Note:** This project relies on a backend server, which can be found here: [megapi](https://github.com/Hatchi-Kin/megapi).
+**Note:** Ce projet dépend du serveur backend pour le projet qui peut être trouvé ici: [megapi](https://github.com/Hatchi-Kin/megapi).
+
+## Repository Contents
+- `.env`: Environment variables file.
+- `.gitignore`: Git ignore file.
+- `docker-compose.yaml`: Docker Compose configuration file.
+- `grafana_data/`: Directory containing Grafana dashboard configurations.
+- `locust/`: Directory containing Locust load testing configurations.
+- `mlflow/`: Directory containing MLFlow setup and Dockerfiles.
+- `prometheus_data/`: Directory containing Prometheus configuration.
+- `README.md`: This README file.
+- `stress_test.py`: Python script for stress testing the API.
 
 
+## How to Deploy
+1. **Clone the repository:**
+    ```sh
+    git clone https://github.com/your-repo/monitoring-stack.git
+    cd monitoring-stack
+    ```
+
+2. **Set up environment variables:**
+    Create a `.env` file in the root directory and add the necessary environment variables. Refer to the `.env.example` file for the required variables.
+
+3. **Build and run the Docker containers:**
+    ```sh
+    docker-compose up --build
+    ```
+
+4. **Access the services:**
+    - **Grafana:** `http://localhost:3030`
+    - **Prometheus:** `http://localhost:9090`
+    - **MLFlow:** `http://localhost:5000`
+    - **Locust:** `http://localhost:8089`
+    
 ## Architecture
 
 ![Architecture Diagram](README_architecture_diagram-20-05-2024_BIG.png)
